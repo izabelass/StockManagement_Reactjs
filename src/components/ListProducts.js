@@ -2,7 +2,7 @@ import React from 'react';
 
 const ListProducts = () => {
     return (
-        <div className='App'>CONSULTA</div>
+        <div className='App'></div>
        
     );
 }

@@ -1,8 +1,10 @@
 import React from 'react';
+import OutlinedCard from './OutlinedCard';
 
 function Home() {
     return (
-        <div className='App'>HOME</div>
+        <OutlinedCard />
+
        
     );
 }
