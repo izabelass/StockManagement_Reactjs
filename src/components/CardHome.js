@@ -35,7 +35,7 @@ const card = (
     </Container>
 );
 
-export default function OutlinedCard() {
+export default function CardHome() {
     return (
         <Box sx={{ minWidth: 275 }}>
             <Card variant="outlined">{card}</Card>

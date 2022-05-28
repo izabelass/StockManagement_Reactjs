@@ -1,9 +1,9 @@
 import React from 'react';
-import OutlinedCard from './OutlinedCard';
+import CardHome from './CardHome';
 
 function Home() {
     return (
-        <OutlinedCard />
+        <CardHome />
 
        
     );
