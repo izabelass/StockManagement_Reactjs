@@ -16,12 +16,16 @@ export default class ProductService {
             errors.push('O campo Nome é obrigatório.')
         }
 
-        if(!product.sku){
-            errors.push('O campo SKU é obrigatório.')
+        if(!product.id){
+            errors.push('O campo ID é obrigatório.')
         }
 
         if(!product.price || product.price <= 0){
             errors.push('O campo Preço deve conter um valor maior que 0(zero).')
+        }
+
+        if(!product.qty || product.qty < 0){
+            errors.push('O campo Quantidade deve conter um valor maior ou igual à 0(zero).')
         }
 
         if(!product.provider){
@@ -31,6 +35,11 @@ export default class ProductService {
         if(errors.length > 0){
             throw new ValidationError(errors)
         }
+    }
+
+    getProduct = () => {
+        const products = localStorage.getItem(PRODUCTS)
+        return JSON.parse(products)
     }
     
     save = (product) => {

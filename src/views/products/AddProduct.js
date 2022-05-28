@@ -1,12 +1,13 @@
 
 
 import * as React from 'react';
+import { useState, createRef } from 'react';
 import { styled } from '@mui/material/styles';
 import TextField from "@material-ui/core/TextField";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button, Paper } from "@material-ui/core";
-import ProductService from '../app/productService';
+import ProductService from '../../app/ProductService';
 import Alert from '@mui/material/Alert';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -19,9 +20,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const initialValue = {
     product_name: '',
-    sku: '',
+    id: '',
     description: '',
     price: 0,
+    qty: 0,
     provider: '',
     success_msg: false,
     erros: []
@@ -45,9 +47,10 @@ class AddProduct extends React.Component {
     onSubmit = (event) => {
         const product = {
             product_name: this.state.product_name,
-            sku: this.state.sku,
+            id: this.state.id,
             description: this.state.description,
             price: this.state.price,
+            qty: this.state.qty,
             provider: this.state.provider
         }
         try {
@@ -72,7 +75,7 @@ class AddProduct extends React.Component {
                 <form >
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={12}>
-                            <Item>CADASTRO DE PRODUTOS</Item>
+                            <Item>CADASTRO PRODUTOS</Item>
                         </Grid>
                         {this.state.success_msg && (
                             <Grid item xs={12} md={12}>
@@ -101,12 +104,12 @@ class AddProduct extends React.Component {
                                 onChange={this.onChange}
                             />
                         </Grid>
-                        <Grid item xs={12} md={6} controlId="formBasicSku">
-                            <label>SKU: *</label>
+                        <Grid item xs={12} md={6} controlId="formBasicid">
+                            <label>ID: *</label>
                             <TextField fullWidth
                                 type="text"
-                                placeholder="Insira o código SKU do produto"
-                                name="sku" value={this.state.sku}
+                                placeholder="Insira o código id do produto"
+                                name="id" value={this.state.id}
                                 onChange={this.onChange}
                             />
                         </Grid>
@@ -121,12 +124,21 @@ class AddProduct extends React.Component {
                             />
 
                         </Grid>
-                        <Grid item xs={12} md={6} controlId="formBasicPrice">
+                        <Grid item xs={6} md={3} controlId="formBasicPrice">
                             <label>Preço: *</label>
                             <TextField fullWidth
                                 type="text"
                                 placeholder="Insira o preço do produto"
                                 name="price" value={this.state.price}
+                                onChange={this.onChange}
+                            />
+                        </Grid>
+                        <Grid item xs={6} md={3} controlId="formBasicQty">
+                            <label>Quantidade: *</label>
+                            <TextField fullWidth
+                                type="number"
+                                placeholder="Insira a quantidade do produto"
+                                name="qty" value={this.state.qty}
                                 onChange={this.onChange}
                             />
                         </Grid>
@@ -141,8 +153,8 @@ class AddProduct extends React.Component {
                             />
                         </Grid>
                         <Grid item>
-                            <Button className='main-btn' variant="contained" type="submit" onClick={this.onSubmit}> Salvar</Button>
-                            <Button className='main-btn' variant="contained" type="submit" onClick={this.clearData}> Limpar</Button>
+                            <Button variant="contained" type="submit" onClick={this.onSubmit}> Salvar</Button>
+                            <Button variant="contained" type="submit" onClick={this.clearData}> Limpar</Button>
                         </Grid>
                     </Grid>
                 </form>
