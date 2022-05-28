@@ -23,7 +23,8 @@ const initialValue = {
     description: '',
     price: 0,
     provider: '',
-    success_msg: false
+    success_msg: false,
+    erros: []
 }
 
 class AddProduct extends React.Component {
@@ -49,9 +50,16 @@ class AddProduct extends React.Component {
             price: this.state.price,
             provider: this.state.provider
         }
-        this.service.save(product)
-        this.clearData();
-        this.setState({ success_msg : true })
+        try {
+            this.service.save(product)
+            this.clearData();
+            this.setState({ success_msg: true })
+        } catch (error) {
+            const errors = error.errors
+            this.setState({ errors: errors })
+
+        }
+
     }
 
     clearData = () => {
@@ -66,13 +74,24 @@ class AddProduct extends React.Component {
                         <Grid item xs={12} md={12}>
                             <Item>CADASTRO DE PRODUTOS</Item>
                         </Grid>
-                        {   this.state.success_msg && (
-                                <Grid item xs={12} md={12}>
-                                <Alert onClose={() => { }}>Cadastro realizado com sucesso!</Alert>
+                        {this.state.success_msg && (
+                            <Grid item xs={12} md={12}>
+                                <Alert onClose={() => { }} variant="outlined" severity="success">Cadastro realizado com sucesso!</Alert>
                             </Grid>
-                            )
+                        )
                         }
-                        
+
+                        {this.state.errors && this.state.errors.length > 0 && (
+                            this.state.errors.map(msg => {
+                                return (
+                                    <Grid item xs={12} md={12}>
+                                        <Alert onClose={() => { }} variant="outlined" severity="error">Erro! {msg} </Alert>
+                                    </Grid>
+                                )
+                            })
+                        )
+                        }
+
                         <Grid item xs={12} md={6} controlId="formBasicProductName">
                             <label>Nome: *</label>
                             <TextField fullWidth
@@ -80,7 +99,6 @@ class AddProduct extends React.Component {
                                 placeholder="Insira o nome do produto"
                                 name="product_name" value={this.state.product_name}
                                 onChange={this.onChange}
-                                required
                             />
                         </Grid>
                         <Grid item xs={12} md={6} controlId="formBasicSku">
@@ -90,7 +108,6 @@ class AddProduct extends React.Component {
                                 placeholder="Insira o código SKU do produto"
                                 name="sku" value={this.state.sku}
                                 onChange={this.onChange}
-                                required
                             />
                         </Grid>
                         <Grid item xs={12} md={12} controlId="formBasicDescription">
@@ -111,7 +128,6 @@ class AddProduct extends React.Component {
                                 placeholder="Insira o preço do produto"
                                 name="price" value={this.state.price}
                                 onChange={this.onChange}
-                                required
                             />
                         </Grid>
                         <Grid item xs={12} md={6} controlId="formBasicProvider">
@@ -122,7 +138,6 @@ class AddProduct extends React.Component {
                                 name="provider"
                                 value={this.state.provider}
                                 onChange={this.onChange}
-                                required
                             />
                         </Grid>
                         <Grid item>
